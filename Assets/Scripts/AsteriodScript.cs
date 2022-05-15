@@ -37,6 +37,7 @@ public class AsteriodScript : MonoBehaviour
 		gameManager = GameManager.Instance;
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		polyCollider = (PolygonCollider2D)GetComponent<Collider2D>();
+		rigidbody2D = GetComponent<Rigidbody2D>();
 	}
 
 	void OnTriggerEnter2D(Collider2D collision)
@@ -112,12 +113,12 @@ public class AsteriodScript : MonoBehaviour
 	// Get an asteroid prefab and set this asteroid's parameters to match.
 	private void ResetFromPrefab()
 	{
-		if (isLarge)
+		if (isLarge)// asteroid large prefab
 		{
 			GameObject prefab = PrefabManager.Instance.GetLargeAsteroidPrefab();
-			spriteRenderer.sprite = prefab.GetComponent<SpriteRenderer>().sprite;
+			spriteRenderer.sprite = prefab.GetComponentInChildren<SpriteRenderer>().sprite;
 
-			PolygonCollider2D prefabCollider = ((PolygonCollider2D)prefab.GetComponent<Collider2D>());
+			PolygonCollider2D prefabCollider = ((PolygonCollider2D)prefab.GetComponentInChildren<Collider2D>());
 			polyCollider.pathCount = prefabCollider.pathCount;
 
 			for (int i = 0; i < prefabCollider.pathCount; i++)
@@ -126,9 +127,9 @@ public class AsteriodScript : MonoBehaviour
 		else
 		{
 			GameObject prefab = PrefabManager.Instance.GetSmallAsteroidPrefab();
-			spriteRenderer.sprite = prefab.GetComponent<SpriteRenderer>().sprite;
+			spriteRenderer.sprite = prefab.GetComponentInChildren<SpriteRenderer>().sprite;
 
-			PolygonCollider2D prefabCollider = ((PolygonCollider2D)prefab.GetComponent<Collider2D>());
+			PolygonCollider2D prefabCollider = ((PolygonCollider2D)prefab.GetComponentInChildren<Collider2D>());
 			polyCollider.pathCount = prefabCollider.pathCount;
 
 			for (int i = 0; i < prefabCollider.pathCount; i++)
@@ -139,8 +140,8 @@ public class AsteriodScript : MonoBehaviour
 	// Get a random number in a range from a normal distribution.
 	private float RandomNormalDistributionInRange(float min, float max)
 	{
-		float mean = (min + max) / 2f;
-		float standardDeviation = (max - mean) / 3f;
+		float mean = (min + max) / 2f;	// average of minimum and maximum force.
+		float standardDeviation = (max - mean) / 3f;	// deviating the astroid after bullet collision.
 
 		float rand = RandomNormalDistribution() * standardDeviation + mean;
 

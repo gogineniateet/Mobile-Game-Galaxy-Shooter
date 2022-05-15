@@ -93,7 +93,6 @@ GameObject:
   - component: {fileID: 1365391646774972673}
   - component: {fileID: 1365391646774972675}
   - component: {fileID: 1365391646774972672}
-  - component: {fileID: 6973472513055045123}
   m_Layer: 8
   m_Name: LargeAsteriod (2)
   m_TagString: Untagged
@@ -147,7 +146,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -172,15 +171,3 @@ PolygonCollider2D:
       - {x: 0.58778536, y: -0.32340473}
       - {x: 0.6039197, y: 0.37555343}
       - {x: 0.45748353, y: 0.53192115}
---- !u!114 &6973472513055045123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365391646774972678}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8a2a4a3cff3b2864380963821e477ea0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
