@@ -219,3 +219,5 @@ MonoBehaviour:
   rotationSpeed: 10
   movementSpeed: 2
   launcher: {fileID: 5160535272876829677}
+  bulletfireEffect: {fileID: 0}
+  useAccelerometer: 0

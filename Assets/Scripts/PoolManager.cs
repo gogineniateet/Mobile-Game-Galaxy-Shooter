@@ -10,36 +10,39 @@ public class ObjectToPool
 }
 public class PoolManager : MonoBehaviour
 {
-    #region PUBLIC VARIABLES
-    // Objects to be pooled at initialization.
-    public ObjectToPool[] prefabsToPool;
-    #endregion
 
-    #region PRIVATE VARIABLES
-    private Dictionary<string, ObjectPool> pools;
-    #endregion
-
-    #region SINGLETON PATTERN
-    public static PoolManager _instance;
-
-    public static PoolManager Instance   
-    
-    {
-        get
-        {
-            if (_instance == null)
-            {
-                _instance = GameObject.FindObjectOfType<PoolManager>();
-                if (_instance == null)
-                {
-                    GameObject container = new GameObject("PoolManager");
-                    _instance = container.AddComponent<PoolManager>();
-                }
-            }
-            return _instance;
-        }
-    }
+	#region PUBLIC VARIABLES
+	// Objects to be pooled at initialization.
+	public ObjectToPool[] prefabsToPool;
 	#endregion
+
+	#region PRIVATE VARIABLES
+	public Dictionary<string, ObjectPool> pools;
+	#endregion
+
+	#region SINGLETON PATTERN
+	public static PoolManager _instance;
+
+	public static PoolManager Instance
+	{
+		get
+		{
+			if (_instance == null)
+			{
+				_instance = GameObject.FindObjectOfType<PoolManager>();
+
+				if (_instance == null)
+				{
+					GameObject container = new GameObject("PoolManager");
+					_instance = container.AddComponent<PoolManager>();
+				}
+			}
+
+			return _instance;
+		}
+	}
+	#endregion
+
 	#region MONOBEHAVIOUR METHODS
 	void Start()
 	{
@@ -59,12 +62,14 @@ public class PoolManager : MonoBehaviour
 
 		ObjectPool newPool = new ObjectPool(prefab, initialCapacity);
 		pools.Add(prefab.name, newPool);
+
 	}
 
 	// Spawn an object with the given name.
 	public GameObject Spawn(string prefabName)
 	{
-		if (!pools.ContainsKey(prefabName)) //  
+
+		if (!pools.ContainsKey(prefabName))
 			return null;
 
 		return pools[prefabName].Spawn();

@@ -6,16 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-
-    public float cameraHalfWidth;
-    public float cameraHalfHeight;
+    // Start is called before the first frame update
     #region PRIVATE VARIABLES
     private int maxNumLives = 3;
     private int lives;
-    private Camera mainCamera;
+
     private int score;
+    public float cameraHalfWidth;
+    public float cameraHalfHeight;
+
+
+    private Camera mainCamera;
     #endregion
-    #region #region SINGLETON REGION
+    #region SINGLETON REGION
     private static GameManager instance;
     public static GameManager Instance
     {
@@ -23,6 +26,7 @@ public class GameManager : MonoBehaviour
         {
             if (instance == null)
             {
+
                 instance = GameObject.FindObjectOfType<GameManager>();
                 if (instance == null)
                 {
@@ -30,17 +34,27 @@ public class GameManager : MonoBehaviour
                     instance = container.AddComponent<GameManager>();
                 }
             }
+
             return instance;
         }
     }
     #endregion
     #region MONOBEHAVIOUR METHODS
+
+
     void Start()
     {
+
         lives = maxNumLives;
         mainCamera = Camera.main;
+        StartCoroutine("SpawnAsteroids");
 
-        StartCoroutine(SpawnAsteroids());
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
     #endregion
     #region PUBLIC METHODS
@@ -57,11 +71,12 @@ public class GameManager : MonoBehaviour
     {
         score += points;
     }
+
     // Restart the game.
     public void Restart()
     {
-        //Application.LoadLevel(Application.loadedLevel);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        //Application.LoadLevel(Application.loadedLevel);
     }
     #endregion
     #region PRIVATE METHODS
@@ -70,15 +85,17 @@ public class GameManager : MonoBehaviour
     {
         while (true)
         {
-            SpawnAsteroid();
+
 
             yield return new WaitForSeconds(Random.Range(2f, 8f));
+            SpawnAsteroid();
         }
     }
     // Spawn an asteroid off the screen.
     private void SpawnAsteroid()
     {
-        AsteriodScript newAsteroid = PoolManager.Instance.Spawn(Constants.ASTEROID_PREFAB_NAME).GetComponent<AsteriodScript>();
+        //Debug.Log("SpawnAstriod");
+        Asteroid newAsteroid = PoolManager.Instance.Spawn(Constants.ASTEROID_PREFAB_NAME).GetComponent<Asteroid>();
 
         Vector2 direction = newAsteroid.GetForceApplied();
 
@@ -128,4 +145,7 @@ public class GameManager : MonoBehaviour
         }
     }
     #endregion
+
+
+
 }

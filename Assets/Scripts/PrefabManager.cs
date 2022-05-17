@@ -4,14 +4,8 @@ using UnityEngine;
 
 public class PrefabManager : MonoBehaviour
 {
-    #region PUBLIC VARIABLES
-    // An array of large asteroid prefabs. Order doesn't matter.
-    public GameObject[] largeAsteroidPrefabs;
-
-    // An array of small asteroid prefabs. Order doesn't matter.
-    public GameObject[] smallAsteroidPrefabs;
-    #endregion
-    #region #region SINGLETON REGION
+    // Start is called before the first frame update
+    #region SINGLETON REGION
     private static PrefabManager instance;
     public static PrefabManager Instance
     {
@@ -19,6 +13,7 @@ public class PrefabManager : MonoBehaviour
         {
             if (instance == null)
             {
+
                 instance = GameObject.FindObjectOfType<PrefabManager>();
                 if (instance == null)
                 {
@@ -26,8 +21,29 @@ public class PrefabManager : MonoBehaviour
                     instance = container.AddComponent<PrefabManager>();
                 }
             }
+
             return instance;
         }
+    }
+    #endregion
+    #region PUBLIC VARIABLES
+    // An array of large asteroid prefabs. Order doesn't matter.
+    public GameObject[] largeAsteroidPrefabs;
+
+    // An array of small asteroid prefabs. Order doesn't matter.
+    public GameObject[] smallAsteroidPrefabs;
+    #endregion
+
+    #region MONOBEHAVIOUR METHODS
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
     }
     #endregion
     #region PUBLIC METHODS

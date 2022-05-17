@@ -2,8 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AsteriodScript : MonoBehaviour
+public class Asteroid : MonoBehaviour
 {
+	#region PUBLIC VARIABLES
+	//public GameObject explosionEffect;
+	#endregion
+
 	#region PRIVATE VARIABLES
 	private bool isLarge;
 
@@ -12,7 +16,6 @@ public class AsteriodScript : MonoBehaviour
 	private SpriteRenderer spriteRenderer;
 	private PolygonCollider2D polyCollider;
 	private Rigidbody2D rigidbody2D;
-
 
 	private int points = 100;
 	private GameManager gameManager;
@@ -34,7 +37,7 @@ public class AsteriodScript : MonoBehaviour
 
 	void Awake()
 	{
-		gameManager = GameManager.Instance;
+		gameManager = GameManager.Instance.GetComponent<GameManager>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		polyCollider = (PolygonCollider2D)GetComponent<Collider2D>();
 		rigidbody2D = GetComponent<Rigidbody2D>();
@@ -42,7 +45,7 @@ public class AsteriodScript : MonoBehaviour
 
 	void OnTriggerEnter2D(Collider2D collision)
 	{
-		if (collision.gameObject.layer == Constants.SHIP_LAYER)
+		if (collision.gameObject.layer == Constants.SHIP_LAYER_NUMBER)
 		{
 			collision.gameObject.GetComponent<ShipScript>().OnHit();
 
@@ -51,8 +54,10 @@ public class AsteriodScript : MonoBehaviour
 			else
 				BreakApart();
 		}
-		else if (collision.gameObject.layer == Constants.BULLET_LAYER)
+		else if (collision.gameObject.layer == Constants.BULLET_LAYER_NUMBER)
 		{
+			//GameObject temp=Instantiate(explosionEffect, collision.gameObject.transform.position, Quaternion.identity);
+			//ParticleManager.Instance.PlayingEffect(explosionEffect, collision.gameObject.transform.position);
 			PoolManager.Instance.Recycle(Constants.BULLET_PREFAB_NAME, collision.transform.parent.gameObject);
 
 			if (!isLarge)
@@ -62,6 +67,7 @@ public class AsteriodScript : MonoBehaviour
 
 			gameManager.GainPoints(points);
 		}
+
 	}
 	#endregion
 
@@ -98,7 +104,7 @@ public class AsteriodScript : MonoBehaviour
 
 		for (int i = 0; i < numChunks; i++)
 		{
-			AsteriodScript chunk = PoolManager.Instance.Spawn(Constants.ASTEROID_PREFAB_NAME).GetComponent<AsteriodScript>();
+			Asteroid chunk = PoolManager.Instance.Spawn(Constants.ASTEROID_PREFAB_NAME).GetComponent<Asteroid>();
 
 			chunk.transform.position = transform.position + new Vector3(Random.Range(-0.5f, 0.5f), Random.Range(-0.5f, 0.5f), 0f);
 			chunk.transform.eulerAngles = new Vector3(0f, 0f, Random.Range(0f, 360f));
@@ -113,7 +119,7 @@ public class AsteriodScript : MonoBehaviour
 	// Get an asteroid prefab and set this asteroid's parameters to match.
 	private void ResetFromPrefab()
 	{
-		if (isLarge)// asteroid large prefab
+		if (isLarge)
 		{
 			GameObject prefab = PrefabManager.Instance.GetLargeAsteroidPrefab();
 			spriteRenderer.sprite = prefab.GetComponentInChildren<SpriteRenderer>().sprite;
@@ -140,8 +146,8 @@ public class AsteriodScript : MonoBehaviour
 	// Get a random number in a range from a normal distribution.
 	private float RandomNormalDistributionInRange(float min, float max)
 	{
-		float mean = (min + max) / 2f;	// average of minimum and maximum force.
-		float standardDeviation = (max - mean) / 3f;	// deviating the astroid after bullet collision.
+		float mean = (min + max) / 2f;
+		float standardDeviation = (max - mean) / 3f;
 
 		float rand = RandomNormalDistribution() * standardDeviation + mean;
 

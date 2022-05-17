@@ -4,17 +4,17 @@ using UnityEngine;
 
 public class ObjectPool
 {
+
 	#region PRIVATE VARIABLES
 	private Queue<GameObject> pool;
 	private GameObject prefab;
 
 	private Transform parent;
-    #endregion
+	#endregion
 
-    #region PUBLIC METHODS
-    // Create a new object pool.
-    #region CONSTRUCTOR 
-    public ObjectPool(GameObject _prefab, int initialCapacity)
+	#region PUBLIC METHODS
+	// Create a new object pool.
+	public ObjectPool(GameObject _prefab, int initialCapacity)
 	{
 		pool = new Queue<GameObject>();
 		prefab = _prefab;
@@ -28,9 +28,9 @@ public class ObjectPool
 			pool.Enqueue(obj);
 		}
 	}
-    #endregion
-    // Spawn an object from the pool.
-    public GameObject Spawn()
+
+	// Spawn an object from the pool.
+	public GameObject Spawn()
 	{
 		GameObject obj;
 
@@ -46,7 +46,6 @@ public class ObjectPool
 
 		return obj;
 	}
-
 
 	// Recycle an object back into the pool.
 	public void Recycle(GameObject obj)
